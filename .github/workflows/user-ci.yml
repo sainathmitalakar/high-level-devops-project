@@ -1,0 +1,25 @@
+
+name: Build & Deploy User Service
+
+on:
+  push:
+    paths:
+      - 'microservices/user-service/**'
+      - '.github/workflows/user-ci.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build Docker image
+        run: |
+          docker build -t your-dockerhub/user-service:latest microservices/user-service
+          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          docker push your-dockerhub/user-service:latest
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f infra/k8s-manifests/user-deployment.yaml
