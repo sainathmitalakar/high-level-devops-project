@@ -187,4 +187,3 @@ readinessProbe: Only sends traffic to healthy pods
 Sainath Mitalakar
 DevOps Engineer
 📧 Contact: sainath8855@gmail.com
-🌐 LinkedIn
